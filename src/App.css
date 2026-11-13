@@ -1,0 +1,81 @@
+.app {
+    display: flex;
+    justify-Content: center;
+    align-Items: center;
+    height: 100vh;
+    background: #0f172a;
+}
+
+.icon-button:hover {
+    background-color: #7dadc5 !important;
+}
+
+.tasks {
+    max-Height: 368px;
+    overflow-Y: auto;
+    overflow-x: hidden;
+    padding-right: 5px;
+}
+
+.tasks::-webkit-scrollbar {
+    width: 6px;
+}
+
+.tasks::-webkit-scrollbar-thumb {
+    background: #aaa;
+    border-radius: 10px;
+}
+
+.tasks::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.task:hover{
+    transition: all 0.4s;
+    background-color: #96bdd1c8;
+    box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* custom fonts */
+@font-face {
+    font-family: A;
+    src: url('/fonts/Roboto/static/Roboto-Bold.ttf');
+    font-weight: 400;
+}
+/* custom fonts */
+
+.task {
+    font-family: A !important;
+    font-weight: 400;
+}
+
+/* ====Add Task Modal Css==== */
+
+.form-modal{
+    background: #f1f1f1;
+    border: 5px solid grey;
+    border-Radius: 20px;
+    padding: 10px;
+    justify-self: center;
+    width: 40%;
+}
+
+.modal-inputs{
+    margin-top: 10px;
+}
+
+.modal-title,h1{
+    font-family: A;
+}
+
+.modal-btns{
+    margin: 15px;
+    text-align: start;
+}
+
+#modal-add-btn{
+    margin-right: 10px;
+}
+
+/* ====Add Task Modal Css==== */
+

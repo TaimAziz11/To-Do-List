@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     babel({ presets: [reactCompilerPreset()] })
   ],
-  base: 'To-Do-List',
+  base: '/To-Do-List/',
   server: {
     watch: {
       usePolling: true,

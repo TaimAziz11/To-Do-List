@@ -17,8 +17,8 @@ import "../App.css";
 import TaskModal from "./TaskModal";
 import Task from "./Task";
 
-//====Use State====
-import { useState } from "react";
+//====Use State / Use Memo====
+import { useState, useMemo } from "react";
 
 //====Context====
 import { TasksContext } from "../Contexts/TasksContext";
@@ -62,13 +62,18 @@ export default function TodoList() {
     setSelectedTask(null);
   };
 
-  const completedTasks = tasks.filter((t) => {
-    return t.isCompleted;
-  });
+  // filteration arrays
+  const completedTasks = useMemo(() => {
+    return tasks.filter((t) => {
+      return t.isCompleted;
+    });
+  }, [tasks]);
 
-  const notCompletedTasks = tasks.filter((t) => {
-    return !t.isCompleted;
-  });
+  const notCompletedTasks = useMemo(() => {
+    return tasks.filter((t) => {
+      return !t.isCompleted;
+    });
+  }, [tasks]);
 
   let tasksToBeRendered = tasks;
 

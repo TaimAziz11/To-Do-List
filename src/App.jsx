@@ -1,30 +1,21 @@
 //====Components====
-import "./App.css";
 import TodoList from "./Components/TodoList";
 
+//====Css====
+import "./App.css";
+
 //====Context====
-import { TasksContext } from "./Contexts/TasksContext";
-
-//====Use State====
-import { useState, useEffect } from "react";
-
-const initialTasks = [];
+import { AlertProvider } from "./Contexts/AlertProvider";
+import { TasksProvider } from "./Contexts/TasksProvider";
 
 function App() {
-  const [tasks, setTasks] = useState(() => {
-    const savedTasks = localStorage.getItem("tasks");
-    return savedTasks ? JSON.parse(savedTasks) : initialTasks;
-  });
-
-  useEffect(() => {
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-  }, [tasks]);
-
   return (
     <div className="app">
-      <TasksContext.Provider value={{ tasks, setTasks }}>
-        <TodoList />
-      </TasksContext.Provider>
+      <TasksProvider>
+        <AlertProvider>
+          <TodoList />
+        </AlertProvider>
+      </TasksProvider>
     </div>
   );
 }

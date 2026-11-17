@@ -28,11 +28,12 @@ import { useState } from "react";
 import "../App.css";
 
 //====Context====
-import { TasksContext } from "../Contexts/TasksContext";
-import { useContext } from "react";
+import { useTasks } from "../Hooks/useTasks";
+import { useAlert } from "../Hooks/useAlert";
 
 export default function Task({ task, onEdit }) {
-  const { tasks, setTasks } = useContext(TasksContext);
+  const { tasks, setTasks } = useTasks();
+  const { showHideAlert } = useAlert();
   const [openDetails, setOpenDetails] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
@@ -50,6 +51,7 @@ export default function Task({ task, onEdit }) {
       return t.id != task.id;
     });
     setTasks(taskDelete);
+    showHideAlert("The Task was deleted successfully...");
   };
 
   const handleClick = () => {
@@ -64,6 +66,11 @@ export default function Task({ task, onEdit }) {
       return t;
     });
     setTasks(taskCheck);
+    if (!task.isCompleted) {
+      showHideAlert("The Task was unChecked successfully...");
+    } else {
+      showHideAlert("The Task was checked successfully...");
+    }
   }
   // ====EVENT HANDLERS====
 

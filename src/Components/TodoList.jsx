@@ -21,16 +21,18 @@ import Task from "./Task";
 import { useState, useMemo } from "react";
 
 //====Context====
-import { TasksContext } from "../Contexts/TasksContext";
-import { useContext } from "react";
+import { useTasks } from "../Hooks/useTasks";
+import { useAlert } from "../Hooks/useAlert";
 
 //====UUID====
 import { v4 as id } from "uuid";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
+
 export default function TodoList() {
-  const { tasks, setTasks } = useContext(TasksContext);
+  const { tasks, setTasks } = useTasks();
+  const { showHideAlert } = useAlert();
   const [modalMode, setModalMode] = useState("add");
   const [selectedTask, setSelectedTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -51,12 +53,14 @@ export default function TodoList() {
           isCompleted: false,
         },
       ]);
+      showHideAlert("The Task was added successfully...");
     } else {
       setTasks((prev) =>
         prev.map((task) =>
           task.id == selectedTask.id ? { ...task, ...taskData } : task,
         ),
       );
+      showHideAlert("The Task was updated successfully...");
     }
     setShowModal(false);
     setSelectedTask(null);

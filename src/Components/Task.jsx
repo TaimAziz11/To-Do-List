@@ -32,7 +32,7 @@ import { useTasks } from "../Hooks/useTasks";
 import { useAlert } from "../Hooks/useAlert";
 
 export default function Task({ task, onEdit }) {
-  const { tasks, setTasks } = useTasks();
+  const { dispatch } = useTasks();
   const { showHideAlert } = useAlert();
   const [openDetails, setOpenDetails] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -47,10 +47,11 @@ export default function Task({ task, onEdit }) {
   };
 
   const handleDeleteConfirm = () => {
-    const taskDelete = tasks.filter((t) => {
-      return t.id != task.id;
+    dispatch({
+      type: "DELETE_TASK",
+      payload: task.id,
     });
-    setTasks(taskDelete);
+
     showHideAlert("The Task was deleted successfully...");
   };
 
@@ -59,17 +60,15 @@ export default function Task({ task, onEdit }) {
   };
 
   function handleCheckClick() {
-    const taskCheck = tasks.map((t) => {
-      if (t.id == task.id) {
-        t.isCompleted = !t.isCompleted;
-      }
-      return t;
+    dispatch({
+      type: "TOGGLE_TASK",
+      payload: task.id,
     });
-    setTasks(taskCheck);
+
     if (!task.isCompleted) {
-      showHideAlert("The Task was unChecked successfully...");
-    } else {
       showHideAlert("The Task was checked successfully...");
+    } else {
+      showHideAlert("The Task was unchecked successfully...");
     }
   }
   // ====EVENT HANDLERS====

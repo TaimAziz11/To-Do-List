@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useReducer, useEffect } from "react";
 import { TasksContext } from "./TasksContext";
+import TasksReducer from "../Reducer/TasksReducer";
 
 const initialTasks = [];
 
 export const TasksProvider = ({ children }) => {
-  const [tasks, setTasks] = useState(() => {
+  const [tasks, dispatch] = useReducer(TasksReducer, initialTasks, () => {
     const savedTasks = localStorage.getItem("tasks");
+
     return savedTasks ? JSON.parse(savedTasks) : initialTasks;
   });
 
@@ -14,7 +16,7 @@ export const TasksProvider = ({ children }) => {
   }, [tasks]);
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks }}>
+    <TasksContext.Provider value={{ tasks, dispatch }}>
       {children}
     </TasksContext.Provider>
   );

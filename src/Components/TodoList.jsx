@@ -31,7 +31,7 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 
 export default function TodoList() {
-  const { tasks, setTasks } = useTasks();
+  const { tasks, dispatch } = useTasks();
   const { showHideAlert } = useAlert();
   const [modalMode, setModalMode] = useState("add");
   const [selectedTask, setSelectedTask] = useState(null);
@@ -42,29 +42,39 @@ export default function TodoList() {
     setDisplayedTasksType(e.target.value);
   }
 
-  const handleSaveTask = (taskData) => {
-    if (modalMode == "add") {
-      setTasks((prev) => [
-        ...prev,
-        {
-          id: id(),
-          title: taskData.title,
-          details: taskData.details,
-          isCompleted: false,
-        },
-      ]);
-      showHideAlert("The Task was added successfully...");
-    } else {
-      setTasks((prev) =>
-        prev.map((task) =>
-          task.id == selectedTask.id ? { ...task, ...taskData } : task,
-        ),
-      );
-      showHideAlert("The Task was updated successfully...");
-    }
-    setShowModal(false);
-    setSelectedTask(null);
-  };
+const handleSaveTask = (taskData) => {
+
+  if (modalMode === "add") {
+
+    dispatch({
+      type: "ADD_TASK",
+      payload: {
+        id: id(),
+        title: taskData.title,
+        details: taskData.details,
+        isCompleted: false,
+      },
+    });
+
+    showHideAlert("The Task was added successfully...");
+
+  } else {
+
+    dispatch({
+      type: "UPDATE_TASK",
+      payload: {
+        id: selectedTask.id,
+        ...taskData,
+      },
+    });
+
+    showHideAlert("The Task was updated successfully...");
+  }
+
+  setShowModal(false);
+  setSelectedTask(null);
+};
+
 
   // filteration arrays
   const completedTasks = useMemo(() => {

@@ -4,6 +4,8 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
+import ToggleButton from "@mui/material/ToggleButton";
+import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 
 //====MATERIAL ICONS====
 import IconButton from "@mui/material/IconButton";
@@ -26,9 +28,6 @@ import { useAlert } from "../Hooks/useAlert";
 
 //====UUID====
 import { v4 as id } from "uuid";
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-
 
 export default function TodoList() {
   const { tasks, dispatch } = useTasks();
@@ -42,39 +41,34 @@ export default function TodoList() {
     setDisplayedTasksType(e.target.value);
   }
 
-const handleSaveTask = (taskData) => {
+  const handleSaveTask = (taskData) => {
+    if (modalMode === "add") {
+      dispatch({
+        type: "ADD_TASK",
+        payload: {
+          id: id(),
+          title: taskData.title,
+          details: taskData.details,
+          isCompleted: false,
+        },
+      });
 
-  if (modalMode === "add") {
+      showHideAlert("The Task was added successfully...");
+    } else {
+      dispatch({
+        type: "UPDATE_TASK",
+        payload: {
+          id: selectedTask.id,
+          ...taskData,
+        },
+      });
 
-    dispatch({
-      type: "ADD_TASK",
-      payload: {
-        id: id(),
-        title: taskData.title,
-        details: taskData.details,
-        isCompleted: false,
-      },
-    });
+      showHideAlert("The Task was updated successfully...");
+    }
 
-    showHideAlert("The Task was added successfully...");
-
-  } else {
-
-    dispatch({
-      type: "UPDATE_TASK",
-      payload: {
-        id: selectedTask.id,
-        ...taskData,
-      },
-    });
-
-    showHideAlert("The Task was updated successfully...");
-  }
-
-  setShowModal(false);
-  setSelectedTask(null);
-};
-
+    setShowModal(false);
+    setSelectedTask(null);
+  };
 
   // filteration arrays
   const completedTasks = useMemo(() => {
